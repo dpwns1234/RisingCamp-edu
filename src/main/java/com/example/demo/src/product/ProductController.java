@@ -116,32 +116,16 @@ public class ProductController {
      */
     @ResponseBody
     @GetMapping("/{productIdx}/review")
-    public BaseResponse<List<GetProductReview>> getProductReview(@PathVariable("productIdx") int productIdx) {
+    public BaseResponse<GetProductReviewRes> getProductReview(@PathVariable("productIdx") int productIdx) {
         try {
-            List<GetProductReview> getProductReview = productProvider.getProductReview(productIdx);
+            GetProductReviewRes getProductReviewRes = productProvider.getProductReview(productIdx);
             //GetReviewAverage getReviewAverage = ; // 이건 하나밖에 필요 없는데 따로 메소드 만들어야 되나?
 
-            return new BaseResponse<>(getProductReview);
+            return new BaseResponse<>(getProductReviewRes);
         } catch(BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
     }
-    /**
-     * 상품의 리뷰 전체 조회 API2 (상품의 종합적인 평가)
-     * [GET]
-     * @return
-     */
-//    @ResponseBody
-//    @GetMapping("/{productIdx/review}")
-//    public BaseResponse<List<GetProductReviewRes>> getProductReview(@PathVariable("productIdx") int productIdx) {
-//        try {
-//            //
-//            List<GetProductReviewRes> getProductReviewRes = productProvider.getProductReview(productIdx);
-//            return new BaseResponse<>(getProductReviewRes);
-//        } catch(BaseException e) {
-//            return new BaseResponse<>(e.getStatus());
-//        }
-//    }
     /**
      * 상품 문의 작성 API
      * [POST] /app/products/:userIdx/:productIdx/inquiry

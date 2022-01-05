@@ -150,34 +150,62 @@ public class ProductDao {
         );
     }
 
-    public List<GetProductReview> getProductReview(int productIdx) {
-        String getProductQuery =
+    public GetProductReviewRes getProductReview(int productIdx) {
+        String getReviewResQuery =
+                "select count(reviewIdx) as reviewNum, round(avg(starRating), 2) as starRating,\n" +
+                        "round(count(if(satisfaction='good', 1, null))/count(if(satisfaction!='null', 1, null))*100, 0) as satisfactionGoodPercent,\n" +
+                        "round(count(if(satisfaction='normal', 1, null))/count(if(satisfaction!='null', 1, null))*100, 0) as satisfactionNormalPercent,\n" +
+                        "round(count(if(satisfaction='bad', 1, null))/count(if(satisfaction!='null', 1, null))*100, 0) as satisfactionBadPercent,\n" +
+                        "round(count(if(optionSatisfaction='good', 1, null))/count(if(optionSatisfaction!='null', 1, null))*100, 0) as optionGoodPercent,\n" +
+                        "round(count(if(optionSatisfaction='normal', 1, null))/count(if(optionSatisfaction!='null', 1, null))*100, 0) as optionNormalPercent,\n" +
+                        "round(count(if(optionSatisfaction='bad', 1, null))/count(if(optionSatisfaction!='null', 1, null))*100, 0) as optionBadPercent\n" +
+                        "from review where review.productIdx = ?;";
+        String getImagesAllQuery =
+                "select image from reviewimg\n" +
+                "left join review on reviewimg.reviewIdx = review.reviewIdx where productIdx = ? order by helpfulNum DESC;";
+
+        String getReviewQuery =
                 "select user.name as userName, starRating, product.title as productTitle, review.content, " +
-                        "helpfulNum, satisfaction, optionSatisfaction, review.reviewIdx from review\n" +
+                        "helpfulNum, satisfaction, optionSatisfaction, review.reviewIdx, review.createdAt from review\n" +
                         "left join user on review.userIdx = user.userIdx\n" +
                         "left join product on review.productIdx = product.productIdx\n" +
                         "left join reviewimg on review.reviewIdx = reviewimg.reviewIdx\n" +
                         "where review.productIdx = ? group by reviewIdx";
         int getReviewParam = productIdx;
         String getImagesQuery = "select image from reviewimg where reviewIdx = ?";
-        int getImageParam = 2;
-        return this.jdbcTemplate.query(getProductQuery,
-                (rs, rowNum) -> new GetProductReview(
-                        rs.getString("userName"),
+
+        return this.jdbcTemplate.queryForObject(getReviewResQuery,
+                (rs, rowNum) -> new GetProductReviewRes(
                         rs.getInt("starRating"),
-                        rs.getString("productTitle"),
-                        rs.getString("content"),
-                        rs.getInt("helpfulNum"),
-                        rs.getString("satisfaction"),
-                        rs.getString("optionSatisfaction"),
-                        this.jdbcTemplate.query(getImagesQuery,
+                        rs.getInt("reviewNum"),
+                        rs.getInt("satisfactionGoodPercent"),
+                        rs.getInt("satisfactionNormalPercent"),
+                        rs.getInt("satisfactionBadPercent"),
+                        rs.getInt("optionGoodPercent"),
+                        rs.getInt("optionNormalPercent"),
+                        rs.getInt("optionBadPercent"),
+                        this.jdbcTemplate.query(getImagesAllQuery,
                                 (rs1, rowNum1) -> new String(
                                         rs1.getString("image")
-                                ),
-                                rs.getInt("reviewIdx")
-                        )
-                ),
-                getReviewParam
+                        ), getReviewParam),
+                        this.jdbcTemplate.query(getReviewQuery,
+                            (rs2, rowNum2) -> new GetProductReview(
+                                    rs2.getString("userName"),
+                                    rs2.getInt("starRating"),
+                                    rs2.getString("productTitle"),
+                                    rs2.getString("content"),
+                                    rs2.getInt("helpfulNum"),
+                                    rs2.getString("satisfaction"),
+                                    rs2.getString("optionSatisfaction"),
+                                    this.jdbcTemplate.query(getImagesQuery,
+                                            (rs3, rowNum3) -> new String(
+                                                    rs3.getString("image")
+                                            ),
+                                            rs2.getInt("reviewIdx")
+                                    )
+                            ), getReviewParam
+                    )
+                ), getReviewParam
         );
     }
 

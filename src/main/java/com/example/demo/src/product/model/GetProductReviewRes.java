@@ -13,12 +13,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetProductReviewRes {
-    private String userName;
     private int starRating;
-    private String productTitle;
-    private String content;
-    private int helpNum;
-    private String satisfaction;
-    private String optionSatisfaction;
+    private int reviewNum;
+    private int satisfactionGoodPercent;
+    private int satisfactionNormalPercent;
+    private int satisfactionBadPercent;
+    private int optionGoodPercent;
+    private int optionNormalPercent;
+    private int optionBadPercent;
     private List<String> images;
+    private List<GetProductReview> reviews;
 }

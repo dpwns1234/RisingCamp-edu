@@ -76,9 +76,9 @@ public class ProductProvider {
         }
     }
 
-    public List<GetProductReview> getProductReview(int productIdx) throws BaseException {
+    public GetProductReviewRes getProductReview(int productIdx) throws BaseException {
     //    try {
-            List<GetProductReview> getProductReviewRes = productDao.getProductReview(productIdx);
+            GetProductReviewRes getProductReviewRes = productDao.getProductReview(productIdx);
             return getProductReviewRes;
     //    } catch (Exception e) {
    //         throw new BaseException((DATABASE_ERROR));
