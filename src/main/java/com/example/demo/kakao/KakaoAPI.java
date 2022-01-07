@@ -8,16 +8,6 @@ import java.net.URL;
 
 
 public class KakaoAPI {
-    public String getAccessToken2(String authorizationCode) {
-        try {
-            return MyOkHttpClient.getAccessToken(authorizationCode);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
     public String getAccessToken(String code) {
         String accessToken = "";
         String refreshToken = "";
@@ -67,6 +57,14 @@ public class KakaoAPI {
             e.printStackTrace();
         }
         return accessToken;
+    }
+
+    public void getAccessToken2(String authorizationCode) {
+        try {
+            MyOkHttpClient.getAccessToken(authorizationCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

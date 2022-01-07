@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="0a288ce4-ef28-40dd-b6df-54106056fa07" name="sad" url="http://misoispeace.shop">
+      <webServer id="0a288ce4-ef28-40dd-b6df-54106056fa07" name="sad" url="https://misoispeace.shop">
         <fileTransfer rootFolder="/var/www/api-server-spring-boot-final2" accessType="SFTP" host="3.37.229.159" port="22" sshConfigId="9d14d049-d5e0-40d0-9e1b-e48eda945b61" sshConfig="ubuntu@3.37.229.159:22 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />

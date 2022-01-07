@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-@Controller
+@Controller // RestController 로 바꿔야하나?
 @RequestMapping("/kakao")
 public class homeController {
     private KakaoAPI kakaoApi = new KakaoAPI();
@@ -20,7 +19,8 @@ public class homeController {
         // 2번 인증코드로 토큰 전달 (일단 이건 보류)
         // HashMap<String, Object> userInfo = kakaoApi
 
-        String accessToken = kakaoApi.getAccessToken2(authorizationCode);
+        System.out.println("<home Controller>start ");
+        kakaoApi.getAccessToken2(authorizationCode);
         // System.out.println("<home Controller> access Token = " + accessToken);
 
     }

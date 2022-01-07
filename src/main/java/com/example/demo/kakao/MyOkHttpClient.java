@@ -14,12 +14,11 @@ public class MyOkHttpClient {
     private static String id = "e2582b10abc0513d70250e43c7d3a575";
     private static String secret_key = "IL1HEt26yk2jGfplhF4isNV8cxEP10QR";
 
-    public static String getAccessToken(String authorizationCode) throws IOException {
+    public static void getAccessToken(String authorizationCode) throws IOException {
         OkHttpClient client = new OkHttpClient();
         HttpUrl urlWithParameters = makeHttpUrlWithParameters(authorizationCode);
         Request request = makeRequset(urlWithParameters);
-        return client.newCall(request).execute().body().string();
-        client.newCall(request).execute().body().source().
+        System.out.println(client.newCall(request).execute().body().string());
     }
 
     private static Request makeRequset(HttpUrl url) {

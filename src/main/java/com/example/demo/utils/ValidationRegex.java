@@ -1,5 +1,7 @@
 package com.example.demo.utils;
 
+import org.springframework.validation.annotation.Validated;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,4 +13,3 @@ public class ValidationRegex {
         return matcher.find();
     }
 }
-

@@ -197,17 +197,18 @@ public class UserDao {
 
     public List<GetPickRes> getPick(int userIdx) {
         String getProductQuery =
-                "select title, image, price, deliveryType, remainNum\n" +
+                "select title, image, price, round(price - price*discountRate/100,0) as discountPrice, deliveryType, remainNum\n" +
                         "from product\n" +
                         "left join productimg on product.productIdx = productimg.productIdx\n" +
                         "left join pickproduct on product.productIdx = pickproduct.productIdx\n" +
-                        "where pickproduct.status='Exist' and userIdx=?";
+                        "where pickproduct.status='Exist' and userIdx=?;";
         int getUserIdxParam = userIdx;
         return this.jdbcTemplate.query(getProductQuery,
                 (rs, rowNum) -> new GetPickRes(
                         rs.getString("title"),
                         rs.getString("image"),
                         rs.getInt("price"),
+                        rs.getInt("discountPrice"),
                         rs.getString("deliveryType"),
                         rs.getInt("remainNum")
                 ),

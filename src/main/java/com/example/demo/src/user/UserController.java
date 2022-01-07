@@ -64,11 +64,9 @@ public class UserController {
      * [GET] /users/:userIdx
      * @return BaseResponse<GetUserRes>
      */
-    // Path-variable
     @ResponseBody
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
-        // Get Users
         try{
             GetUserRes getUserRes = userProvider.getUser(userIdx);
             return new BaseResponse<>(getUserRes);
@@ -92,19 +90,19 @@ public class UserController {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
         // 주소가 null 값이면 validation
-        if(postUserReq.getAddress() == null) { // || postUserReq.getAddress() == "" 이것도 해줘야 하지 않나?
+        if(postUserReq.getAddress() == null || postUserReq.getAddress().equals("")) { // || postUserReq.getAddress() == "" 이것도 해줘야 하지 않나?
             return new BaseResponse<>(POST_USERS_EMPTY_ADDRESS);
         }
         // 이름이 null 값이면 validation
-        if(postUserReq.getName() == null) {
+        if(postUserReq.getName() == null || postUserReq.getName().equals("")) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
         }
         // 아이디가 null 값이면 validation
-        if(postUserReq.getId() == null) {
+        if(postUserReq.getId() == null || postUserReq.getId().equals("")) {
             return new BaseResponse<>(POST_USERS_EMPTY_ID);
         }
         // 비밀번호가 null 값이면 validation
-        if(postUserReq.getPassword() == null) {
+        if(postUserReq.getPassword() == null || postUserReq.getPassword().equals("")) {
             return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
         }
 
